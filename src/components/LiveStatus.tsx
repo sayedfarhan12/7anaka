@@ -235,16 +235,19 @@ export const LiveStatus: React.FC = () => {
           <motion.div
             key="offline-status"
             id="offline-status-card"
-            className="relative rounded-2xl p-[1px] max-w-sm sm:max-w-md lg:max-w-xl xl:max-w-2xl mx-auto overflow-hidden"
+            className="relative rounded-2xl p-[1px] max-w-sm sm:max-w-lg lg:max-w-xl mx-auto overflow-hidden"
             initial={{ opacity: 0, y: 10 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
           >
-            <div className="rounded-2xl bg-[#0a0a0a]/80 backdrop-blur-md px-4 sm:px-6 lg:px-7 py-2 sm:py-2.5 lg:py-3 border border-white/[0.08] shadow-lg flex items-center justify-between gap-3">
-              <div className="flex items-center gap-2.5 sm:gap-3" dir="rtl">
+            <div
+              dir="rtl"
+              className="rounded-2xl bg-[#0a0a0a]/80 backdrop-blur-md px-4 sm:px-6 lg:px-7 py-2 sm:py-2.5 lg:py-3 border border-white/[0.08] shadow-lg flex items-center justify-between sm:justify-center sm:gap-5"
+            >
+              <div className="flex items-center gap-2.5 sm:gap-3 text-right">
                 <span className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-neutral-500/60 shrink-0" />
-                <div className="text-right">
+                <div>
                   <span className="text-xs sm:text-sm lg:text-base font-bold tracking-wide text-neutral-200">
                     أوفلاين حالياً.. استنى العظمة الجاية 🔥
                   </span>
