@@ -242,14 +242,14 @@ export const LiveStatus: React.FC = () => {
             transition={{ duration: 0.4 }}
           >
             <div className="rounded-2xl bg-[#0a0a0a]/80 backdrop-blur-md px-4 sm:px-6 lg:px-7 py-2 sm:py-2.5 lg:py-3 border border-white/[0.08] shadow-lg flex items-center justify-between gap-3">
-              <div className="flex items-center gap-2.5 sm:gap-3">
+              <div className="flex items-center gap-2.5 sm:gap-3" dir="rtl">
                 <span className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-neutral-500/60 shrink-0" />
-                <div className="text-left">
-                  <span className="text-[11px] sm:text-xs lg:text-sm font-bold tracking-wider text-neutral-300 uppercase">
-                    CURRENTLY OFFLINE
+                <div className="text-right">
+                  <span className="text-xs sm:text-sm lg:text-base font-bold tracking-wide text-neutral-200">
+                    أوفلاين حالياً.. استنى العظمة الجاية 🔥
                   </span>
-                  <p className="text-[10px] sm:text-[11px] lg:text-xs text-neutral-500 font-normal">
-                    Streaming channels listed below
+                  <p className="text-[10px] sm:text-[11px] lg:text-xs text-neutral-400 font-normal">
+                    القنوات تحت أهي.. تابعها عشان أول ما نفتح تكون أول الحاضرين ⚡
                   </p>
                 </div>
               </div>
@@ -258,7 +258,7 @@ export const LiveStatus: React.FC = () => {
                 onClick={() => fetchLiveStatus(true)}
                 disabled={loading}
                 title="تحديث حالة البث"
-                className="p-1.5 sm:p-2 rounded-lg text-neutral-400 hover:text-[#FFC400] hover:bg-white/5 transition-colors cursor-pointer"
+                className="p-1.5 sm:p-2 rounded-lg text-neutral-400 hover:text-[#FFC400] hover:bg-white/5 transition-colors cursor-pointer shrink-0"
                 aria-label="Refresh stream status"
               >
                 <RefreshCw className={`w-3.5 h-3.5 sm:w-4 sm:h-4 ${loading ? 'animate-spin text-[#FF7A00]' : ''}`} />
