@@ -446,10 +446,18 @@ async function checkTikTokLive(): Promise<PlatformStreamInfo> {
         const user = json?.data?.user;
         const liveRoom = json?.data?.liveRoom;
 
-        const isLive = Boolean(
-          (user?.status === 2 || liveRoom?.status === 2) ||
-          (user?.roomId && user.roomId !== '' && user.roomId !== '0')
-        );
+        // TikTok API status rules:
+        // status === 2 : Live stream is actively broadcasting
+        // status === 4 : Stream ended / offline
+        // status === 0 : Offline
+        // IMPORTANT: user.roomId persists long after stream ends, so never rely on roomId alone!
+        const userStatus = Number(user?.status);
+        const roomStatus = Number(liveRoom?.status);
+
+        const isExplicitlyLive = (userStatus === 2 || roomStatus === 2);
+        const isOffline = (userStatus === 4 || roomStatus === 4 || (userStatus === 0 && roomStatus === 0));
+
+        const isLive = isExplicitlyLive && !isOffline;
 
         if (isLive) {
           const uniqueId = user?.uniqueId || handle;

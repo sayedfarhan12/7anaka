@@ -113,101 +113,120 @@ export const LiveStatus: React.FC = () => {
           /* ============================================================== */
           <motion.div
             key="live-broadcast-group"
-            className="space-y-4"
+            className="space-y-3"
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.97 }}
             transition={{ duration: 0.4 }}
           >
-            {activeLivePlatforms.map((platKey) => {
-              const streamInfo: PlatformStreamInfo = data?.platforms?.[platKey] || {
-                platform: platKey,
-                isLive: true,
-                configured: true,
-                channelName: PLATFORMS_META[platKey].channelHandle,
-                streamUrl: PLATFORMS_META[platKey].defaultUrl,
-              };
+            {/* Cards Container: Side-by-side (2 columns) on mobile and desktop when multiple are live */}
+            <div className={activeLivePlatforms.length > 1 ? "grid grid-cols-2 gap-2 sm:gap-3.5" : "space-y-3"}>
+              {activeLivePlatforms.map((platKey) => {
+                const streamInfo: PlatformStreamInfo = data?.platforms?.[platKey] || {
+                  platform: platKey,
+                  isLive: true,
+                  configured: true,
+                  channelName: PLATFORMS_META[platKey].channelHandle,
+                  streamUrl: PLATFORMS_META[platKey].defaultUrl,
+                };
 
-              const meta = PLATFORMS_META[platKey];
-              const streamUrl = streamInfo.streamUrl || meta.defaultUrl;
+                const meta = PLATFORMS_META[platKey];
+                const streamUrl = streamInfo.streamUrl || meta.defaultUrl;
+                const isMultiCard = activeLivePlatforms.length > 1;
 
-              return (
-                <div
-                  key={platKey}
-                  id={`live-card-${platKey}`}
-                  className="relative rounded-2xl p-[1.5px] overflow-hidden"
-                >
-                  {/* Ambient Glowing Aura */}
+                return (
                   <div
-                    className="absolute -inset-1 rounded-2xl blur-xl opacity-60 pointer-events-none"
-                    style={{
-                      background: `radial-gradient(ellipse at top, ${meta.brandColor}55 0%, rgba(255, 90, 0, 0.3) 45%, transparent 75%)`,
-                    }}
-                  />
+                    key={platKey}
+                    id={`live-card-${platKey}`}
+                    className="relative rounded-2xl p-[1.5px] overflow-hidden h-full flex flex-col"
+                  >
+                    {/* Ambient Glowing Aura */}
+                    <div
+                      className="absolute -inset-1 rounded-2xl blur-xl opacity-60 pointer-events-none"
+                      style={{
+                        background: `radial-gradient(ellipse at top, ${meta.brandColor}55 0%, rgba(255, 90, 0, 0.3) 45%, transparent 75%)`,
+                      }}
+                    />
 
-                  {/* Gradient Border */}
-                  <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#FF5A00] via-[#FFD84D]/70 to-[#FF7A00] opacity-80" />
+                    {/* Gradient Border */}
+                    <div className="absolute inset-0 rounded-2xl bg-gradient-to-r from-[#FF5A00] via-[#FFD84D]/70 to-[#FF7A00] opacity-80" />
 
-                  {/* Glassmorphic Card Body */}
-                  <div className="relative rounded-2xl bg-[#090909]/95 backdrop-blur-2xl p-4 sm:p-5 lg:p-6 border border-white/10 shadow-2xl flex flex-col gap-3.5 lg:gap-4">
-                    {/* Header Row: Live Badge & Platform */}
-                    <div className="flex items-center justify-between gap-2">
-                      <div className="flex items-center gap-2 flex-wrap">
-                        {/* Pulsing Live Beacon */}
-                        <span className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-1 rounded-full text-xs lg:text-sm font-black tracking-wider bg-red-500/15 text-red-400 border border-red-500/30 shadow-[0_0_12px_rgba(239,68,68,0.4)]">
-                          <span className="relative flex h-2 w-2">
-                            <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
-                            <span className="relative inline-flex rounded-full h-2 w-2 bg-red-500" />
+                    {/* Glassmorphic Card Body */}
+                    <div
+                      className={`relative rounded-2xl bg-[#090909]/95 backdrop-blur-2xl border border-white/10 shadow-2xl h-full flex ${
+                        isMultiCard
+                          ? 'flex-col justify-between p-2.5 sm:p-4 gap-2 sm:gap-3'
+                          : 'flex-row items-center justify-between p-3 sm:p-4.5 lg:p-5 gap-2.5 sm:gap-4'
+                      }`}
+                    >
+                      {/* Left/Top: Stream Info & Badges */}
+                      <div className="flex-1 min-w-0 flex flex-col justify-center gap-1 sm:gap-1.5 text-left">
+                        {/* Status Badges Row */}
+                        <div className="flex items-center gap-1 sm:gap-1.5 flex-wrap">
+                          {/* Pulsing Live Beacon */}
+                          <span className="inline-flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-2.5 py-0.5 rounded-full text-[9px] sm:text-xs font-black tracking-wider bg-red-500/15 text-red-400 border border-red-500/30 shadow-[0_0_10px_rgba(239,68,68,0.35)] shrink-0">
+                            <span className="relative flex h-1.5 w-1.5">
+                              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-red-400 opacity-75" />
+                              <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-red-500" />
+                            </span>
+                            LIVE
                           </span>
-                          LIVE NOW
-                        </span>
 
-                        {/* Platform Indicator */}
-                        <span className="inline-flex items-center gap-1.5 px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full text-xs lg:text-sm font-bold bg-white/5 border border-white/10 text-white">
-                          <span style={{ color: meta.brandColor }}>{meta.renderIcon('w-3.5 h-3.5 lg:w-4 lg:h-4')}</span>
-                          <span>{meta.name}</span>
-                        </span>
+                          {/* Platform Indicator */}
+                          <span className="inline-flex items-center gap-1 sm:gap-1.5 px-1.5 sm:px-2 py-0.5 rounded-full text-[10px] sm:text-xs font-bold bg-white/5 border border-white/10 text-white shrink-0">
+                            <span style={{ color: meta.brandColor }}>{meta.renderIcon('w-3 h-3 sm:w-3.5 sm:h-3.5')}</span>
+                            <span>{meta.name}</span>
+                          </span>
+
+                          {/* Viewers Badge */}
+                          {Boolean(streamInfo.viewers) && (
+                            <span className="inline-flex items-center gap-0.5 sm:gap-1 px-1 sm:px-1.5 py-0.5 rounded-full bg-white/5 border border-white/10 text-[9px] sm:text-xs font-medium text-neutral-300 shrink-0">
+                              <Users className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#FFC400]" />
+                              <span>{streamInfo.viewers?.toLocaleString()}</span>
+                            </span>
+                          )}
+                        </div>
+
+                        {/* Stream Title & Category */}
+                        <div className="space-y-0.5 min-w-0">
+                          <p className={`font-semibold text-white/95 leading-tight ${
+                            isMultiCard ? 'text-[11px] sm:text-xs md:text-sm line-clamp-1' : 'text-xs sm:text-sm lg:text-base line-clamp-1 sm:line-clamp-2'
+                          }`}>
+                            {streamInfo.title || `Live stream on ${meta.name}`}
+                          </p>
+                          {streamInfo.category && (
+                            <p className="text-[9px] sm:text-xs text-[#FFC400] font-medium flex items-center gap-1 truncate">
+                              <Flame className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-[#FF5A00] shrink-0" />
+                              <span className="truncate">{streamInfo.category}</span>
+                            </p>
+                          )}
+                        </div>
                       </div>
 
-                      {/* Viewers Badge */}
-                      {Boolean(streamInfo.viewers) && (
-                        <div className="flex items-center gap-1.5 px-2.5 sm:px-3 py-0.5 sm:py-1 rounded-full bg-white/5 border border-white/10 text-xs lg:text-sm font-medium text-neutral-300">
-                          <Users className="w-3 h-3 lg:w-3.5 lg:h-3.5 text-[#FFC400]" />
-                          <span>{streamInfo.viewers?.toLocaleString()} viewers</span>
-                        </div>
-                      )}
+                      {/* Right/Bottom: Direct Stream CTA Button */}
+                      <div className={isMultiCard ? 'w-full pt-0.5' : 'shrink-0 flex items-center'}>
+                        <a
+                          id={`watch-cta-${platKey}`}
+                          href={streamUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className={`group relative flex items-center justify-center gap-1 sm:gap-1.5 rounded-xl font-extrabold tracking-wide text-black bg-gradient-to-r from-[#FF5A00] via-[#FF7A00] to-[#FFC400] hover:from-[#FF7A00] hover:to-[#FFD84D] shadow-[0_0_16px_rgba(255,90,0,0.45)] hover:shadow-[0_0_24px_rgba(255,122,0,0.65)] active:scale-95 transition-all duration-300 cursor-pointer overflow-hidden ${
+                            isMultiCard
+                              ? 'w-full py-1.5 sm:py-2.5 px-2 text-[10px] sm:text-xs'
+                              : 'py-2 sm:py-2.5 md:py-3 px-3 sm:px-4 md:px-5 lg:px-6 text-[11px] sm:text-xs md:text-sm whitespace-nowrap'
+                          }`}
+                        >
+                          <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
+                          <Radio className="w-3 h-3 text-black shrink-0 animate-pulse" />
+                          <span>شاهد على {meta.name}</span>
+                          <ExternalLink className="w-2.5 h-2.5 sm:w-3 sm:h-3 text-black shrink-0 transition-transform group-hover:translate-x-0.5" />
+                        </a>
+                      </div>
                     </div>
-
-                    {/* Stream Title & Category */}
-                    <div className="text-left space-y-1">
-                      <p className="text-sm sm:text-base lg:text-lg font-semibold text-white/95 leading-snug line-clamp-2">
-                        {streamInfo.title || `Live stream on ${meta.name}`}
-                      </p>
-                      {streamInfo.category && (
-                        <p className="text-xs sm:text-sm text-[#FFC400] font-medium flex items-center gap-1.5">
-                          <Flame className="w-3.5 h-3.5 lg:w-4 lg:h-4 text-[#FF5A00]" />
-                          {streamInfo.category}
-                        </p>
-                      )}
-                    </div>
-
-                    {/* Direct Stream CTA */}
-                    <a
-                      id={`watch-cta-${platKey}`}
-                      href={streamUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="group relative flex items-center justify-center gap-2.5 w-full py-3 sm:py-3.5 lg:py-4 px-6 lg:px-8 rounded-xl font-bold text-sm lg:text-base tracking-wide text-black bg-gradient-to-r from-[#FF5A00] via-[#FF7A00] to-[#FFC400] hover:from-[#FF7A00] hover:to-[#FFD84D] shadow-[0_0_24px_rgba(255,90,0,0.45)] hover:shadow-[0_0_32px_rgba(255,122,0,0.65)] active:scale-[0.98] transition-all duration-300 cursor-pointer overflow-hidden"
-                    >
-                      <div className="absolute inset-0 -translate-x-full group-hover:translate-x-full transition-transform duration-700 bg-gradient-to-r from-transparent via-white/30 to-transparent pointer-events-none" />
-                      <Radio className="w-4 h-4 text-black animate-pulse" />
-                      <span>WATCH ON {meta.name.toUpperCase()}</span>
-                      <ExternalLink className="w-4 h-4 text-black transition-transform group-hover:translate-x-0.5" />
-                    </a>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
+            </div>
           </motion.div>
         ) : (
           /* ============================================================== */
@@ -238,7 +257,7 @@ export const LiveStatus: React.FC = () => {
               <button
                 onClick={() => fetchLiveStatus(true)}
                 disabled={loading}
-                title="Check stream status"
+                title="تحديث حالة البث"
                 className="p-1.5 sm:p-2 rounded-lg text-neutral-400 hover:text-[#FFC400] hover:bg-white/5 transition-colors cursor-pointer"
                 aria-label="Refresh stream status"
               >
