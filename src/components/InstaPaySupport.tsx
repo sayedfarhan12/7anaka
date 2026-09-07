@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'motion/react';
-import { Heart, Copy, Check, ExternalLink, Sparkles } from 'lucide-react';
+import { Heart, ExternalLink, Sparkles } from 'lucide-react';
 
 interface InstaPaySupportProps {
   directPayUrl?: string;
@@ -10,29 +10,7 @@ interface InstaPaySupportProps {
 
 export const InstaPaySupport: React.FC<InstaPaySupportProps> = ({
   directPayUrl = 'https://ipn.eg/S/hossamh99/instapay/3BOyKL',
-  ipaAddress = 'hossamh99@instapay',
 }) => {
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = async (e: React.MouseEvent) => {
-    e.preventDefault();
-    e.stopPropagation();
-    try {
-      await navigator.clipboard.writeText(ipaAddress);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
-    } catch {
-      const textArea = document.createElement('textarea');
-      textArea.value = ipaAddress;
-      document.body.appendChild(textArea);
-      textArea.select();
-      document.execCommand('copy');
-      document.body.removeChild(textArea);
-      setCopied(true);
-      setTimeout(() => setCopied(false), 2500);
-    }
-  };
-
   return (
     <motion.div
       id="instapay-support-trigger-container"
@@ -74,22 +52,8 @@ export const InstaPaySupport: React.FC<InstaPaySupportProps> = ({
           </div>
         </div>
 
-        {/* Right: Actions Row (Direct Transfer Button + Quick Copy IPA) */}
-        <div className="relative shrink-0 flex items-center gap-1.5 sm:gap-2">
-          {/* Quick Copy IPA Button */}
-          <button
-            type="button"
-            onClick={handleCopy}
-            title={copied ? 'تم النسخ!' : `نسخ المعرف: ${ipaAddress}`}
-            className={`p-1.5 sm:p-2 rounded-xl border transition-all duration-200 cursor-pointer ${
-              copied
-                ? 'bg-emerald-600/30 border-emerald-500 text-emerald-300'
-                : 'bg-white/5 hover:bg-white/15 border-white/10 text-neutral-300 hover:text-white'
-            }`}
-          >
-            {copied ? <Check className="w-3.5 h-3.5 text-emerald-400" /> : <Copy className="w-3.5 h-3.5" />}
-          </button>
-
+        {/* Right: Direct Support Action */}
+        <div className="relative shrink-0 flex items-center">
           {/* Direct Support Button */}
           <div
             id="direct-support-pill"
