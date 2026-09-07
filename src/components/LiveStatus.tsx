@@ -105,7 +105,7 @@ export const LiveStatus: React.FC = () => {
   const isAnyLive = activeLivePlatforms.length > 0;
 
   return (
-    <div id="live-status-container" className="w-full max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-3xl mx-auto px-4 sm:px-6 mt-4 sm:mt-6 lg:mt-8 z-20 space-y-4">
+    <div id="live-status-container" className="w-full max-w-lg md:max-w-xl lg:max-w-2xl xl:max-w-3xl mx-auto px-4 sm:px-6 mt-2.5 sm:mt-3 lg:mt-4 z-20 space-y-3">
       <AnimatePresence mode="wait">
         {isAnyLive ? (
           /* ============================================================== */
@@ -113,14 +113,14 @@ export const LiveStatus: React.FC = () => {
           /* ============================================================== */
           <motion.div
             key="live-broadcast-group"
-            className="space-y-3"
+            className="space-y-2.5"
             initial={{ opacity: 0, y: 14 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.97 }}
             transition={{ duration: 0.4 }}
           >
             {/* Cards Container: Side-by-side (2 columns) on mobile and desktop when multiple are live */}
-            <div className={activeLivePlatforms.length > 1 ? "grid grid-cols-2 gap-2 sm:gap-3.5" : "space-y-3"}>
+            <div className={activeLivePlatforms.length > 1 ? "grid grid-cols-2 gap-2 sm:gap-3" : "space-y-2.5"}>
               {activeLivePlatforms.map((platKey) => {
                 const streamInfo: PlatformStreamInfo = data?.platforms?.[platKey] || {
                   platform: platKey,
@@ -155,8 +155,8 @@ export const LiveStatus: React.FC = () => {
                     <div
                       className={`relative rounded-2xl bg-[#090909]/95 backdrop-blur-2xl border border-white/10 shadow-2xl h-full flex ${
                         isMultiCard
-                          ? 'flex-col justify-between p-2.5 sm:p-4 gap-2 sm:gap-3'
-                          : 'flex-row items-center justify-between p-3 sm:p-4.5 lg:p-5 gap-2.5 sm:gap-4'
+                          ? 'flex-col justify-between p-2 sm:p-3 gap-1.5 sm:gap-2'
+                          : 'flex-row items-center justify-between p-2.5 sm:p-3.5 lg:p-4 gap-2.5 sm:gap-4'
                       }`}
                     >
                       {/* Left/Top: Stream Info & Badges */}
@@ -241,14 +241,14 @@ export const LiveStatus: React.FC = () => {
             exit={{ opacity: 0 }}
             transition={{ duration: 0.4 }}
           >
-            <div className="rounded-2xl bg-[#0a0a0a]/80 backdrop-blur-md px-4 sm:px-6 lg:px-8 py-3 sm:py-3.5 lg:py-4 border border-white/[0.08] shadow-lg flex items-center justify-between gap-3">
-              <div className="flex items-center gap-3">
-                <span className="w-2.5 h-2.5 rounded-full bg-neutral-500/60" />
+            <div className="rounded-2xl bg-[#0a0a0a]/80 backdrop-blur-md px-4 sm:px-6 lg:px-7 py-2 sm:py-2.5 lg:py-3 border border-white/[0.08] shadow-lg flex items-center justify-between gap-3">
+              <div className="flex items-center gap-2.5 sm:gap-3">
+                <span className="w-2 sm:w-2.5 h-2 sm:h-2.5 rounded-full bg-neutral-500/60 shrink-0" />
                 <div className="text-left">
-                  <span className="text-xs sm:text-sm lg:text-base font-bold tracking-wider text-neutral-300 uppercase">
+                  <span className="text-[11px] sm:text-xs lg:text-sm font-bold tracking-wider text-neutral-300 uppercase">
                     CURRENTLY OFFLINE
                   </span>
-                  <p className="text-[11px] sm:text-xs lg:text-sm text-neutral-500 font-normal">
+                  <p className="text-[10px] sm:text-[11px] lg:text-xs text-neutral-500 font-normal">
                     Streaming channels listed below
                   </p>
                 </div>

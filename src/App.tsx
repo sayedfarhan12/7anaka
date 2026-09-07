@@ -26,7 +26,7 @@ export default function App() {
       {/* Main Single-Page Streamer Stage */}
       <motion.main
         id="main-content"
-        className="relative z-10 flex-1 flex flex-col items-center justify-center w-full max-w-4xl lg:max-w-6xl xl:max-w-7xl mx-auto px-4 sm:px-8 lg:px-12 pt-8 sm:pt-12 lg:pt-16 pb-6 lg:pb-10"
+        className="relative z-10 flex-1 flex flex-col items-center justify-center w-full max-w-4xl lg:max-w-6xl xl:max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-3 sm:pt-4 md:pt-6 pb-2 sm:pb-3 md:pb-4 my-auto"
         initial={{ opacity: 0, y: 15 }}
         animate={{
           opacity: showIntro ? 0 : 1,

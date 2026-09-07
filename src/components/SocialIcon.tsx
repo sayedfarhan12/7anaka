@@ -154,7 +154,7 @@ export const SocialIcon: React.FC<SocialIconProps> = ({ social, index }) => {
         {isHovered && (
           <motion.div
             id={`tooltip-${social.id}`}
-            className="absolute -top-12 lg:-top-16 z-30 px-2.5 lg:px-3.5 py-1 lg:py-1.5 rounded-lg lg:rounded-xl bg-[#0e0e0e]/95 border border-white/15 text-white text-xs lg:text-sm font-semibold shadow-[0_8px_20px_rgba(0,0,0,0.8)] backdrop-blur-xl whitespace-nowrap pointer-events-none flex items-center gap-1.5"
+            className="absolute -top-10 lg:-top-12 z-30 px-2.5 lg:px-3 py-1 rounded-lg bg-[#0e0e0e]/95 border border-white/15 text-white text-xs lg:text-sm font-semibold shadow-[0_8px_20px_rgba(0,0,0,0.8)] backdrop-blur-xl whitespace-nowrap pointer-events-none flex items-center gap-1.5"
             initial={{ opacity: 0, y: 6, scale: 0.9 }}
             animate={{ opacity: 1, y: 0, scale: 1 }}
             exit={{ opacity: 0, y: 3, scale: 0.95 }}
@@ -177,13 +177,13 @@ export const SocialIcon: React.FC<SocialIconProps> = ({ social, index }) => {
         target="_blank"
         rel="noopener noreferrer"
         aria-label={`${social.name} - ${social.username}`}
-        className="group relative w-12 h-12 sm:w-14 sm:h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 xl:w-22 xl:h-22 rounded-2xl sm:rounded-2xl lg:rounded-3xl p-[1px] flex items-center justify-center cursor-pointer select-none transition-transform duration-200 active:scale-95"
+        className="group relative w-11 h-11 sm:w-12 sm:h-12 md:w-14 md:h-14 lg:w-16 lg:h-16 xl:w-18 xl:h-18 rounded-xl sm:rounded-2xl lg:rounded-2xl p-[1px] flex items-center justify-center cursor-pointer select-none transition-transform duration-200 active:scale-95"
         whileHover={{ scale: 1.12, y: -4 }}
         whileTap={{ scale: 0.95 }}
       >
         {/* Dynamic Brand Color Glow Backdrop - permanently subtle, radiates on hover */}
         <div
-          className="absolute -inset-1 rounded-2xl sm:rounded-2xl lg:rounded-3xl blur-md lg:blur-lg transition-opacity duration-300 pointer-events-none"
+          className="absolute -inset-1 rounded-xl sm:rounded-2xl lg:rounded-2xl blur-md lg:blur-lg transition-opacity duration-300 pointer-events-none"
           style={{
             backgroundColor: social.brandColor,
             opacity: isHovered ? 0.55 : 0.18,
@@ -192,7 +192,7 @@ export const SocialIcon: React.FC<SocialIconProps> = ({ social, index }) => {
 
         {/* Outer subtle border matching brand color */}
         <div
-          className="absolute inset-0 rounded-2xl sm:rounded-2xl lg:rounded-3xl transition-all duration-300 pointer-events-none"
+          className="absolute inset-0 rounded-xl sm:rounded-2xl lg:rounded-2xl transition-all duration-300 pointer-events-none"
           style={{
             background: isHovered
               ? `linear-gradient(135deg, ${social.brandColor} 0%, rgba(255, 255, 255, 0.5) 50%, ${social.brandColor} 100%)`
@@ -202,7 +202,7 @@ export const SocialIcon: React.FC<SocialIconProps> = ({ social, index }) => {
 
         {/* Inner Glass Disc Surface */}
         <div
-          className="relative w-full h-full rounded-2xl sm:rounded-2xl lg:rounded-3xl bg-[#0c0c0c]/85 backdrop-blur-xl flex items-center justify-center transition-all duration-300 overflow-hidden"
+          className="relative w-full h-full rounded-xl sm:rounded-2xl lg:rounded-2xl bg-[#0c0c0c]/85 backdrop-blur-xl flex items-center justify-center transition-all duration-300 overflow-hidden"
           style={{
             backgroundColor: isHovered ? 'rgba(18, 18, 18, 0.92)' : 'rgba(12, 12, 12, 0.82)',
           }}
@@ -211,7 +211,7 @@ export const SocialIcon: React.FC<SocialIconProps> = ({ social, index }) => {
           <div className="absolute inset-0 bg-gradient-to-t from-transparent via-white/10 to-transparent opacity-0 group-hover:opacity-100 transition-opacity pointer-events-none" />
 
           {/* Authentic Brand Icon */}
-          <div className="transition-transform duration-300 group-hover:scale-110 flex items-center justify-center">
+          <div className="transition-transform duration-300 group-hover:scale-110 flex items-center justify-center scale-90 sm:scale-95 lg:scale-100">
             {renderIcon()}
           </div>
         </div>

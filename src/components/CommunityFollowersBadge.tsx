@@ -49,7 +49,7 @@ export const CommunityFollowersBadge: React.FC = () => {
   return (
     <motion.div
       id="community-followers-badge"
-      className="relative mt-3 sm:mt-4 lg:mt-6 inline-flex flex-col items-center select-none group"
+      className="relative mt-2 sm:mt-2.5 lg:mt-3 inline-flex flex-col items-center select-none group"
       initial={{ opacity: 0, y: 8, scale: 0.96 }}
       animate={{ opacity: 1, y: 0, scale: 1 }}
       transition={{ duration: 0.6, delay: 0.35, ease: [0.16, 1, 0.3, 1] }}
@@ -67,28 +67,28 @@ export const CommunityFollowersBadge: React.FC = () => {
       />
 
       {/* Main Glass Capsule */}
-      <div className="relative flex items-center gap-2 sm:gap-3 lg:gap-4 px-3.5 sm:px-4 lg:px-6 py-1.5 sm:py-2 lg:py-2.5 rounded-full bg-[#08080a]/90 backdrop-blur-xl border border-white/[0.08] group-hover:border-white/20 shadow-[0_4px_20px_rgba(0,0,0,0.5)] transition-all duration-300 cursor-pointer">
+      <div className="relative flex items-center gap-2 sm:gap-2.5 lg:gap-3.5 px-3 sm:px-4 lg:px-5 py-1 sm:py-1.5 lg:py-2 rounded-full bg-[#08080a]/90 backdrop-blur-xl border border-white/[0.08] group-hover:border-white/20 shadow-[0_4px_20px_rgba(0,0,0,0.5)] transition-all duration-300 cursor-pointer">
         {/* Community Users Icon with glowing dot */}
-        <div className="relative flex items-center justify-center w-6 h-6 lg:w-7 lg:h-7 rounded-full bg-white/[0.05] border border-white/[0.06] text-[#FFC400]">
-          <Users className="w-3.5 h-3.5 lg:w-4 lg:h-4" />
+        <div className="relative flex items-center justify-center w-5 h-5 lg:w-6 lg:h-6 rounded-full bg-white/[0.05] border border-white/[0.06] text-[#FFC400]">
+          <Users className="w-3 h-3 lg:w-3.5 lg:h-3.5" />
           <span className="absolute -top-0.5 -right-0.5 w-1.5 h-1.5 rounded-full bg-[#53FC18] shadow-[0_0_6px_#53FC18] animate-pulse" />
         </div>
 
         {/* Total Follower Count */}
-        <div className="flex items-baseline gap-1.5 lg:gap-2">
-          <span className="font-mono text-sm sm:text-base lg:text-lg font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-[#FFF6E5] to-[#FFD84D] tracking-tight">
+        <div className="flex items-baseline gap-1 lg:gap-1.5">
+          <span className="font-mono text-xs sm:text-sm lg:text-base font-extrabold text-transparent bg-clip-text bg-gradient-to-r from-white via-[#FFF6E5] to-[#FFD84D] tracking-tight">
             +{formatShort(stats.totalFollowers)}
           </span>
-          <span className="text-[11px] sm:text-xs lg:text-sm font-semibold text-neutral-400 uppercase tracking-wider">
+          <span className="text-[10px] sm:text-[11px] lg:text-xs font-semibold text-neutral-400 uppercase tracking-wider">
             متابع
           </span>
         </div>
 
         {/* Minimal Divider */}
-        <span className="h-3 lg:h-4 w-px bg-white/10" />
+        <span className="h-2.5 lg:h-3 w-px bg-white/10" />
 
         {/* Platform Breakdown Mini Badges */}
-        <div className="flex items-center gap-1.5 sm:gap-2 lg:gap-2.5 text-[11px] lg:text-xs font-medium">
+        <div className="flex items-center gap-1 sm:gap-1.5 lg:gap-2 text-[10px] lg:text-[11px] font-medium">
           {/* Kick Badge */}
           <a
             href="https://kick.com/7naka"
