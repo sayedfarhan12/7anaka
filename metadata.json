@@ -1,0 +1,6 @@
+{
+  "name": "7NAKA",
+  "description": "Ultra-modern, cinematic personal landing website and live status portal for streamer and content creator 7NAKA.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
