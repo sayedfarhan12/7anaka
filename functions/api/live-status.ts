@@ -40,22 +40,22 @@ async function checkKickLive(): Promise<{ info: PlatformStreamInfo; followers: n
     configured: true,
     channelName: '7naka',
     streamUrl: 'https://kick.com/7naka',
-    followers: 15937,
+    followers: 20036,
   };
 
   try {
     const res = await (fetch as any)('https://kick.com/api/v2/channels/7naka', {
       headers: {
-        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/120.0.0.0 Safari/537.36',
+        'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
         'Accept': 'application/json',
       },
       cf: { cacheTtl: 20, cacheEverything: true },
     });
 
-    if (!res.ok) return { info: defaultInfo, followers: 15937 };
+    if (!res.ok) return { info: defaultInfo, followers: 20036 };
 
     const data: any = await res.json();
-    const followers = Number(data?.followers_count) || 15937;
+    const followers = Number(data?.followers_count) || 20036;
     const livestream = data?.livestream;
 
     if (livestream && livestream.is_live !== false) {
