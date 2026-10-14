@@ -5,10 +5,10 @@ import { CommunityStats } from '../types';
 
 export const CommunityFollowersBadge: React.FC = () => {
   const [stats, setStats] = useState<CommunityStats>({
-    kickFollowers: 15828,
-    tiktokFollowers: 8457,
-    totalFollowers: 24285,
-    formattedTotal: '24,285',
+    kickFollowers: 20035,
+    tiktokFollowers: 9998,
+    totalFollowers: 30033,
+    formattedTotal: '30,033',
   });
   const [loading, setLoading] = useState(false);
   const [showBreakdown, setShowBreakdown] = useState(false);
@@ -32,8 +32,8 @@ export const CommunityFollowersBadge: React.FC = () => {
     };
 
     fetchStats();
-    // Refresh community stats every 60 seconds
-    const interval = setInterval(fetchStats, 60000);
+    // Refresh community stats every 30 seconds
+    const interval = setInterval(fetchStats, 30000);
     return () => {
       isMounted = false;
       clearInterval(interval);

@@ -78,36 +78,75 @@ async function getTwitchToken(clientId: string, clientSecret: string): Promise<s
   }
 }
 
-let cachedKickFollowers = 15828;
-let cachedTikTokFollowers = 8456;
+let cachedKickFollowers = 20035;
+let lastKickFollowerFetch = 0;
+let cachedTikTokFollowers = 9998;
 let lastTikTokFollowerFetch = 0;
 
+async function fetchKickFollowers(slug = '7naka'): Promise<number> {
+  if (Date.now() - lastKickFollowerFetch < 30000 && cachedKickFollowers > 0) {
+    return cachedKickFollowers;
+  }
+  try {
+    const { stdout } = await execFileAsync(
+      'curl',
+      [
+        '-s',
+        '--max-time',
+        '6',
+        '-A',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+        `https://kick.com/api/v2/channels/${slug}`,
+      ],
+      { maxBuffer: 1024 * 1024 }
+    );
+
+    if (stdout && !stdout.trim().startsWith('<')) {
+      const data = JSON.parse(stdout) as any;
+      if (data?.followers_count !== undefined && !isNaN(Number(data.followers_count))) {
+        cachedKickFollowers = Number(data.followers_count);
+        lastKickFollowerFetch = Date.now();
+        return cachedKickFollowers;
+      }
+    }
+  } catch (err: any) {
+    console.warn('Failed to fetch Kick followers:', err?.message || err);
+  }
+  return cachedKickFollowers;
+}
+
 async function fetchTikTokFollowers(handle = '7naka4'): Promise<number> {
-  if (Date.now() - lastTikTokFollowerFetch < 60000 && cachedTikTokFollowers > 0) {
+  if (Date.now() - lastTikTokFollowerFetch < 30000 && cachedTikTokFollowers > 0) {
     return cachedTikTokFollowers;
   }
   try {
-    const res = await fetch(`https://www.tiktok.com/@${handle}`, {
-      headers: {
-        'User-Agent':
-          'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/122.0.0.0 Safari/537.36',
-        'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
-      },
-      signal: AbortSignal.timeout(5000),
-    });
-    if (res.ok) {
-      const html = await res.text();
-      const match = html.match(/<script id="__UNIVERSAL_DATA_FOR_REHYDRATION__"[^>]*>([\s\S]*?)<\/script>/);
+    const { stdout } = await execFileAsync(
+      'curl',
+      [
+        '-s',
+        '--max-time',
+        '6',
+        '-A',
+        'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/124.0.0.0 Safari/537.36',
+        `https://www.tiktok.com/@${handle}`,
+      ],
+      { maxBuffer: 2 * 1024 * 1024 }
+    );
+
+    if (stdout) {
+      const match = stdout.match(/<script id="__UNIVERSAL_DATA_FOR_REHYDRATION__"[^>]*>([\s\S]*?)<\/script>/);
       if (match) {
-        const parsed = JSON.parse(match[1]);
-        const userDetail = parsed?.__DEFAULT_SCOPE__?.['webapp.user-detail']?.userInfo;
-        if (userDetail?.stats?.followerCount) {
-          cachedTikTokFollowers = Number(userDetail.stats.followerCount);
-          lastTikTokFollowerFetch = Date.now();
-          return cachedTikTokFollowers;
-        }
+        try {
+          const parsed = JSON.parse(match[1]);
+          const userDetail = parsed?.__DEFAULT_SCOPE__?.['webapp.user-detail']?.userInfo;
+          if (userDetail?.stats?.followerCount) {
+            cachedTikTokFollowers = Number(userDetail.stats.followerCount);
+            lastTikTokFollowerFetch = Date.now();
+            return cachedTikTokFollowers;
+          }
+        } catch {}
       }
-      const regexMatch = html.match(/"followerCount":\s*(\d+)/);
+      const regexMatch = stdout.match(/"followerCount":\s*(\d+)/);
       if (regexMatch) {
         cachedTikTokFollowers = Number(regexMatch[1]);
         lastTikTokFollowerFetch = Date.now();
@@ -588,8 +627,10 @@ app.get('/api/live-status', async (req, res) => {
 
 // Community Stats endpoint (followers from Kick & TikTok)
 app.get('/api/community-stats', async (req, res) => {
-  const tiktokFollowers = await fetchTikTokFollowers('7naka4');
-  const kickFollowers = cachedKickFollowers;
+  const [kickFollowers, tiktokFollowers] = await Promise.all([
+    fetchKickFollowers('7naka'),
+    fetchTikTokFollowers('7naka4'),
+  ]);
   const totalFollowers = kickFollowers + tiktokFollowers;
   res.json({
     kickFollowers,
